@@ -1,11 +1,9 @@
 # Django Pivot Compare
 
 Compares the pivot table methods for:
-[Postgres](https://www.postgresql.org/)
+[Postgres](https://www.postgresql.org/),
 [MongoDB](https://www.mongodb.com)
-and native [python](https://www.python.org) 
-
-## Premise
+and native [python](https://www.python.org)
 
 All test will start with the exact same data structure
 and number of rows/documents.
@@ -21,6 +19,8 @@ app.
 
 Our mongodb test will use
 [group aggregation](http://docs.mongodb.org/manual/reference/aggregation/group/)
+
+[ref](https://stackoverflow.com/a/17401008)
 
 ## Python
 
