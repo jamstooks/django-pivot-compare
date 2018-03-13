@@ -15,13 +15,7 @@ class PGPivotTestCase(TestCase):
         
         print("\n---\nTesting with %d records" % CourseScore.objects.count())
         
-        
-        # print("---\nUnfiltered Test")
-        # qs = CourseScore.objects.all()
-        # pt = self.runPivot(qs)
-        # self.assertTrue('WILLIAM' in pt[0] and 'course_name' in pt[0])
-        
-        print("---\nFiltered Test")
+        print("---\nFiltered Test (%d students)" % len(self.selected_students))
         qs = CourseScore.objects.filter(student_name__in=self.selected_students)
         pt = self.runPivot(qs)
         self.assertTrue('WILLIAM' not in pt[0] and 'course_name' in pt[0])
