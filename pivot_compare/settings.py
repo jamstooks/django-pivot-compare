@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +21,7 @@ PROJECT_DIR = os.path.join(BASE_DIR, 'pivot_compare')
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gosf#-xf%tl0l=ujo^!*tz9slt!6b0miw9h^c)j_ri7bb=!jmr'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'secret')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,26 +32,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    
-    'pivot_compare.apps.pg',
+
+    'pivot_compare.apps.grades',
     'pivot_compare.tests',
 ]
 
-MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+MIDDLEWARE = []
 
 ROOT_URLCONF = 'pivot_compare.urls'
 
@@ -71,39 +59,19 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pivot_compare.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-import dj_database_url
-# DATABASES['default'] = dj_database_url.config(
-#     default='postgres://ec2-user@localhost:5432/pivot_test')
-    
 DATABASES = {
     'default': dj_database_url.config(
-    default='postgres://ec2-user@localhost:5432/pivot')
+        default='postgres://ec2-user@localhost:5432/pivot_compare'),
+    'mongo': {
+        'ENGINE': 'djongo',
+        'NAME': 'pivot_compare',
+    }
 }
-
-
-# Password validation
-# https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
+# DATABASES['default']['TEST'] = {'NAME': 'pg_auto_test'}
+DATABASES['mongo']['TEST'] = {'NAME': 'mongo_auto_test'}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
